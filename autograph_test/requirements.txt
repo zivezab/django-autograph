@@ -1,0 +1,4 @@
+Django==1.5.1
+South==0.8.1
+autograph==1.0.0
+pil==1.1.7

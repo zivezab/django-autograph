@@ -15,17 +15,24 @@ Requirements
   
 Settings
 --------
-settings.py
   INSTALLED_APPS = (
-      'autograph',
+    'autograph',
   )
-  
+
   
 Testing
 -------
   python manage.py test autograph
   
   
+Demo - autograph_test
+---------------------
+  1. pip install -r requirements.txt
+  2. python manage.py syncdb
+  3. python manage.py migrate
+  4. python manage.py runserver
+  
+  
 Contact
 -------
-https://github.com/zivezab/django-autograph/issues
+  https://github.com/zivezab/django-autograph/issues
