@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}Autograph with jQuery UI Signature{% endblock title %}
+
+{% block header_meta %}
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
+       Remove this if you use the .htaccess -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="initial-scale=1.0, target-densitydpi=device-dpi" /><!-- this is for mobile (Android) Chrome -->
+    <meta name="viewport" content="initial-scale=1.0, width=device-height"><!--  mobile Safari, FireFox, Opera Mobile  -->
+{% endblock header_meta %}
+
+{% block header_css %}
+    <link type="text/css" href="{{ STATIC_URL }}css/jquery.signature.css" rel="stylesheet">
+    <style type="text/css">
+    #content label, textarea {
+        width: 100%;
+        height: 200px;
+    }
+    .kbw-signature {
+        width: 400px;
+        height: 200px;
+    }
+    /* Drawing the 'gripper' for touch-enabled devices */
+    html.touch #content {
+        float:left;
+        width:92%;
+    }
+    html.touch #scrollgrabber {
+        float:right;
+        width:4%;
+        margin-right:2%;
+        background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+    }
+    html.borderradius #scrollgrabber {
+        border-radius: 1em;
+    }
+    </style>
+{% endblock header_css %}
+
+{% block breadcrumb %}
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li class="active">jQuery UI Signature Basics</li>
+{% endblock breadcrumb %}
+
+{% block content %}
+    <div class="container">
+        <h1>jQuery UI Signature Basics</h1>
+        <p class="lead">This page demonstrates the very basics of the
+        <a href="http://keith-wood.name/signature.html" rel="nofollow" target="_blank">jQuery UI Signature plugin</a>.
+        It contains the minimum requirements for using the plugin and
+        can be used as the basis for your own experimentation.</p>
+        <p class="lead">For more detail see the <a href="http://keith-wood.name/signatureRef.html" rel="nofollow" target="_blank">documentation reference</a> page.</p>
+        <div id="content">
+            {% if autograph %}
+                <p class="lead">Latest signature:</p>
+                <label><textarea id="json_source" class="json_string" readonly="readonly">{{ autograph.autograph }}</textarea></label>
+                <p><button id="redraw" class="btn btn-default">Redraw</button></p>
+            {% endif %}
+            <p>Draw signature:</p>
+            <div id="sig"></div>
+            <form method="POST">
+                <p style="clear: both;">
+                    <button id="clear" class="btn btn-default">Clear</button>
+                    <button id="json" class="btn btn-default">To JSON</button>
+                    <input type="submit" name="submit" value="Submit" class="btn btn-default"/>
+                </p>
+                {% csrf_token %}
+                <label><textarea id="json_string" class="json_string" name="json_string" readonly="readonly"></textarea></label>
+            </form>
+        </div>
+        <div id="scrollgrabber"></div>
+    </div>
+{% endblock content %}
+
+{% block bottom_javascript %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqueryuisignature/jquery.ui.touch-punch.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jsignature/modernizr.js"></script>
+    <!--[if IE]>
+        <script type="text/javascript" src="{{ STATIC_URL }}js/jqueryuisignature/excanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jqueryuisignature/jquery.signature.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var sig = $('#sig');
+            sig.signature({guideline: true, thickness: 3});
+            $('#clear').on('click', function(){
+                sig.signature('clear');
+            });
+            $('#json').on('click', function(){
+                $('#json_string').text(sig.signature('toJSON'));
+            });
+            $('#redraw').on('click', function(){
+                sig.signature('draw', $('#json_source').text());
+            });
+            $('form:first').on('submit', function(){
+                if(!sig.signature('isEmpty')){
+                    $('#json').click();
+                    return true;
+                }else{
+                    alert('Empty Signature');
+                }
+                return false;
+            });
+            sig.signature('draw', $('#json_source').text());
+            if (Modernizr.touch){
+                $('#scrollgrabber').height($('#content').height())
+            }
+        });
+    </script>
+{% endblock bottom_javascript %}

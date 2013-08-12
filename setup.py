@@ -27,7 +27,7 @@ setup(
     version='1.0.0',
     author='Zive Lai',
     author_email='zive.lai@gmail.com',
-    packages=find_packages(),
+    packages=find_packages(exclude=['autograph_test']),
     url='https://github.com/zivezab/django-autograph/',
     description='A Django application for managing signature/autograph data.',
     long_description=open(os.path.join(os.getcwdu(), 'README.md')).read(),
