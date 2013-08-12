@@ -1,16 +1,14 @@
 django-autograph
 ================
 Store signature in JSON format into db.
-Functional code based on http://keith-wood.name/signature.html#java
+Functional code for image generator based on http://keith-wood.name/signature.html#java
 
 
 Requirements
 ------------
-1. jQuery Signature by kbwood (Keith Wood)
-  https://github.com/kbwood/signature
-2. Django 1.4+
-3. South
-4. Python Imaging Library (PIL)
+1. Django 1.4+
+2. South
+3. Python Imaging Library (PIL)
   
   
 Settings
