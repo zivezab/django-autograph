@@ -2,7 +2,7 @@ Django==1.5.1
 South==0.8.1
 dj-database-url==0.2.2
 dj-static==0.0.5
-gunicorn==17.5
+gunicorn==19.5.0
 pil==1.1.7
 psycopg2==2.5.1
 static==0.4
